@@ -17,6 +17,8 @@ const Auth = (() => {
     { id: 'recruiter',         label: 'Recruiter' },
     { id: 'payroll_officer',   label: 'Payroll Officer' },
     { id: 'events_officer',    label: 'Events Officer' },
+    { id: 'training_mgr',      label: 'Training & Development Manager' },
+    { id: 'training_officer',  label: 'Training Officer' },
     { id: 'management',        label: 'Management (Read Only)' }
   ];
 
@@ -39,6 +41,7 @@ const Auth = (() => {
     campaigns:         ['marketing_officer', 'management'],
     vendors:           ['marketing_officer', 'management'],
     events:            ['events_officer', 'crm_lead', 'management'],
+    trainings:         ['training_mgr', 'training_officer', 'management'],
     targets:           ['sales_head', 'sales_officer', 'management'],
     reports:           ['sales_head', 'management']
   };

@@ -23,7 +23,8 @@ const Components = (() => {
     vendors: '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
     events: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
     targets: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
-    reports: '<path d="M3 21h18M7 17V9M12 17V5M17 17v-4"/>'
+    reports: '<path d="M3 21h18M7 17V9M12 17V5M17 17v-4"/>',
+    training: '<path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/>'
   };
 
   function svg(name, size) {
@@ -424,6 +425,12 @@ const Components = (() => {
         { id: 'campaigns', label: 'Campaigns', hash: '#/campaigns', icon: 'campaigns' },
         { id: 'vendors', label: 'Vendors', hash: '#/vendors', icon: 'vendors' },
         { id: 'events', label: 'Events', hash: '#/events', icon: 'events' }
+      ]
+    },
+    {
+      title: 'LearningLab & Training',
+      items: [
+        { id: 'trainings', label: 'Training', hash: '#/trainings', icon: 'training' }
       ]
     },
     {
