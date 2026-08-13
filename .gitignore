@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Editor / OS
+*.swp
+Thumbs.db

@@ -1,0 +1,42 @@
+/* tokens.css — CSS variables only. Never hard-code colours elsewhere. */
+
+:root {
+  --primary:        #6030F0;
+  --primary-soft:   rgba(96, 48, 240, 0.15);
+  --primary-dark:   #4A22C4;
+  --secondary:      #30F060;
+  --secondary-soft: rgba(48, 240, 96, 0.15);
+  --warning:        #F0A030;
+  --warning-soft:   rgba(240, 160, 48, 0.15);
+  --danger:         #F03060;
+  --danger-soft:    rgba(240, 48, 96, 0.15);
+  --ink:            #1A1A2E;
+  --ink-soft:       #6B6B85;
+  --bg:             #F7F7FB;
+  --card:           #FFFFFF;
+  --line:           #E8E8F0;
+
+  --white:          #FFFFFF;
+  --on-primary:     #FFFFFF;
+  --line-strong:    #D3D3E0;
+  --green-ink:      #1E9A46;
+  --amber-ink:      #C77E14;
+  --gray-soft:      #EDEDF4;
+  --zebra:          #FBFBFE;
+  --skeleton-mid:   #F3F3F8;
+  --note:           #CDCDD8;
+
+  --radius:         12px;
+  --radius-sm:      8px;
+  --shadow:         0 1px 2px rgba(26, 26, 46, 0.04), 0 4px 16px rgba(26, 26, 46, 0.06);
+  --shadow-lg:      0 8px 30px rgba(26, 26, 46, 0.16);
+
+  --font-ui:        'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+
+  --sidebar-w:      248px;
+  --topbar-h:       64px;
+  --content-pad:    24px;
+  --content-max:    1400px;
+
+  --ease:           0.15s ease;
+}
