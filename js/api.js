@@ -6,14 +6,14 @@ const api = (() => {
   const ENTITY_NAMES = [
     'employers', 'leads', 'deals', 'visits', 'orders',
     'collections', 'queries', 'campaigns', 'requirements', 'payrollClients', 'contacts', 'dailyReports',
-    'jobseekerSupports', 'proposals', 'vendors', 'events', 'targets', 'trainings'
+    'jobseekerSupports', 'proposals', 'vendors', 'events', 'targets', 'trainings', 'employees'
   ];
 
   const PREFIX = {
     employers: 'EMP', leads: 'LEAD', deals: 'DEAL', visits: 'VISIT', orders: 'ORD',
     collections: 'INV', queries: 'Q', campaigns: 'CAMP', requirements: 'REQ', payrollClients: 'PAY',
     contacts: 'CONT', dailyReports: 'REPORT', jobseekerSupports: 'JS', proposals: 'PROP',
-    vendors: 'VEND', events: 'EVENT', targets: 'TGT', trainings: 'TRN'
+    vendors: 'VEND', events: 'EVENT', targets: 'TGT', trainings: 'TRN', employees: 'EMP'
   };
 
   function delay(ms) {

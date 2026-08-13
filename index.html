@@ -44,8 +44,10 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (Auth.isLoggedIn()) {
-        Components.renderShell();
-        Router.start();
+        Auth.loadEmployees().catch(function () {}).finally(function () {
+          Components.renderShell();
+          Router.start();
+        });
       } else {
         Components.renderLogin();
       }

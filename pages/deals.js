@@ -56,7 +56,7 @@
     const service = selectInput(C.services, deal.service, 'Select service');
     const stage = selectInput(C.dealStages, deal.stage || 'prospecting', false);
     const value = Components.numberInput(deal.value, '0');
-    const officer = selectInput(C.salesOfficers, deal.officer, 'Select officer');
+    const officer = selectInput(Auth.salesOfficers(), deal.officer, 'Select officer');
     const expectedClose = Components.dateInput(deal.expectedClose);
 
     form.appendChild(field('Employer', employer.el, true));

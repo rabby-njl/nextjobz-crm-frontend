@@ -112,6 +112,56 @@ const Auth = (() => {
     return name.slice(0, 2).toUpperCase();
   }
 
+  /* ---------------- Employee directory (for name + Enroll ID dropdowns) ---------------- */
+
+  let directory = [];
+
+  async function loadEmployees() {
+    try {
+      const list = await api.employees.list();
+      directory = Array.isArray(list) ? list : [];
+    } catch (e) {
+      directory = [];
+    }
+    return directory;
+  }
+
+  function employees() {
+    return directory.slice();
+  }
+
+  function empLabel(e) {
+    return e.name + ' (' + e.enrollId + ')';
+  }
+
+  function byRoles(roles) {
+    return directory.filter((e) => roles.includes(e.role)).map(empLabel);
+  }
+
+  function allOfficers() {
+    return directory.map(empLabel);
+  }
+
+  function salesOfficers() {
+    return byRoles(['sales_officer', 'sales_head']);
+  }
+
+  function crmOfficers() {
+    return byRoles(['crm_officer', 'crm_lead']);
+  }
+
+  function recruiters() {
+    return byRoles(['recruiter', 'headhunting_mgr', 'business_development']);
+  }
+
+  function eventsOfficers() {
+    return byRoles(['events_officer']);
+  }
+
+  function payrollOfficers() {
+    return byRoles(['payroll_officer']);
+  }
+
   async function login(username, password) {
     const res = await fetch(CONFIG.API_BASE_URL + '/api/login', {
       method: 'POST',
@@ -145,6 +195,14 @@ const Auth = (() => {
     isLoggedIn,
     employee,
     token,
-    role
+    role,
+    loadEmployees,
+    employees,
+    allOfficers,
+    salesOfficers,
+    crmOfficers,
+    recruiters,
+    eventsOfficers,
+    payrollOfficers
   };
 })();

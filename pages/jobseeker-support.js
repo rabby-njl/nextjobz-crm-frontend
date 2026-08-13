@@ -53,7 +53,7 @@
     const name = textInput(rec.name, 'Job seeker name');
     const phone = textInput(rec.phone, '01700000000');
     const type = selectInput(C.jsTypes, rec.type, 'Select type');
-    const officer = selectInput(C.crmOfficers, rec.officer || Auth.userName(), 'Select officer');
+    const officer = selectInput(Auth.crmOfficers(), rec.officer || Auth.userName(), 'Select officer');
     const date = Components.dateInput(rec.date || Utils.todayISO());
     const outcome = selectInput(C.jsOutcomes, rec.outcome, 'Select outcome');
 

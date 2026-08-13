@@ -49,7 +49,7 @@
     const status = selectInput(C.orderStatuses, order.status || 'pending', false);
     const startDate = Components.dateInput(order.startDate);
     const endDate = Components.dateInput(order.endDate);
-    const officer = selectInput(C.salesOfficers, order.officer, 'Select officer');
+    const officer = selectInput(Auth.salesOfficers(), order.officer, 'Select officer');
 
     form.appendChild(field('Employer', employer.el, true));
     form.appendChild(field('Service', service, false));

@@ -614,7 +614,7 @@ const Components = (() => {
       err.style.display = 'none';
       btn.disabled = true;
       btn.textContent = 'Signing in…';
-      Auth.login(u.value, p.value).then(() => {
+      Auth.login(u.value, p.value).then(() => Auth.loadEmployees().catch(() => {})).then(() => {
         const target = document.getElementById('app');
         target.innerHTML = '';
         Components.renderShell();

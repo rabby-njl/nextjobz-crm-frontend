@@ -62,7 +62,7 @@
     const billMonth = monthInput(vendor.billMonth);
     const amount = Components.numberInput(vendor.amount, '0');
     const status = selectInput(C.vendorStatuses, vendor.status || 'received', false);
-    const verifiedBy = textInput(vendor.verifiedBy, 'Marketing One');
+    const verifiedBy = textInput(vendor.verifiedBy, Auth.userName());
 
     form.appendChild(field('Vendor', name, true));
     form.appendChild(field('Service type', serviceType, false));

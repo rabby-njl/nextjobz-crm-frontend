@@ -48,7 +48,7 @@
     const proposedDate = Components.dateInput(ev.proposedDate);
     const value = Components.numberInput(ev.value, '0');
     const status = selectInput(C.eventStatuses, ev.status || 'new', false);
-    const owner = selectInput(['Events One'], ev.owner || 'Events One', false);
+    const owner = selectInput(Auth.eventsOfficers(), ev.owner, 'Select owner');
     const source = selectInput(C.eventSources, ev.source, 'Select source');
 
     form.appendChild(field('Organisation', organisation.el, true));

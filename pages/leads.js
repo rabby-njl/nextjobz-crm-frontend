@@ -74,7 +74,7 @@
     const source = selectInput(C.sources, lead.source, 'Select source');
     const serviceInterest = selectInput(C.services, lead.serviceInterest, 'Select service');
     const routedTo = selectInput(C.routes, lead.routedTo, 'Not routed');
-    const assignedTo = selectInput(C.officers, lead.assignedTo, 'Unassigned');
+    const assignedTo = selectInput(Auth.allOfficers(), lead.assignedTo, 'Unassigned');
     const status = selectInput(C.leadStatuses, lead.status || 'new', false);
     const note = Utils.el('textarea');
     note.value = lead.note || '';
@@ -198,7 +198,7 @@
   function openRouteModal(lead, onSaved) {
     const body = Utils.el('div', 'form-grid');
     const team = selectInput(C.routes, lead.routedTo, 'Select team');
-    const officer = selectInput(C.officers, lead.assignedTo, 'Select officer');
+    const officer = selectInput(Auth.allOfficers(), lead.assignedTo, 'Select officer');
     body.appendChild(field('Team', team, true));
     body.appendChild(field('Assigned officer', officer, false));
 

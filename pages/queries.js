@@ -71,7 +71,7 @@
     const from = textInput(query.from, 'Sender name');
     const type = selectInput(C.queryTypes, query.type, 'Select type');
     const subject = textInput(query.subject, 'Subject');
-    const assignedTo = selectInput(C.crmOfficers, query.assignedTo, 'Unassigned');
+    const assignedTo = selectInput(Auth.crmOfficers(), query.assignedTo, 'Unassigned');
     const status = selectInput(C.queryStatuses, query.status || 'open', false);
     const company = Components.searchableSelect(C.companies, query.company, 'Type to search employer (optional)');
 

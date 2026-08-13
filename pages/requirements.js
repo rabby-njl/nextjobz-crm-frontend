@@ -59,7 +59,7 @@
     const position = textInput(req.position, 'Sales Executive');
     const serviceType = selectInput(C.reqServiceTypes, req.serviceType, 'Select service type');
     const headcount = Components.numberInput(req.headcount, '1');
-    const recruiter = selectInput(C.recruiters, req.recruiter, 'Select recruiter');
+    const recruiter = selectInput(Auth.recruiters(), req.recruiter, 'Select recruiter');
     const stage = selectInput(C.reqStages, req.stage || 'JD pending', false);
     const dateOpened = Components.dateInput(req.dateOpened || Utils.todayISO());
 

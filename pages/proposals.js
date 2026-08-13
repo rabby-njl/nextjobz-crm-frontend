@@ -48,7 +48,7 @@
     const value = Components.numberInput(prop.value, '0');
     const sentDate = Components.dateInput(prop.sentDate);
     const status = selectInput(C.proposalStatuses, prop.status || 'draft', false);
-    const owner = selectInput(C.recruiters, prop.owner, 'Select owner');
+    const owner = selectInput(Auth.recruiters(), prop.owner, 'Select owner');
 
     form.appendChild(field('Client', client.el, true));
     form.appendChild(field('Service', service, false));

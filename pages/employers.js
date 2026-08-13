@@ -58,7 +58,7 @@
     const zone = selectInput(C.zones, employer.zone, 'Select zone');
     const phone = textInput(employer.phone, '01700000000');
     const email = textInput(employer.email, 'name@example.com');
-    const salesperson = selectInput(C.salesOfficers, employer.salesperson, 'Select owner');
+    const salesperson = selectInput(Auth.salesOfficers(), employer.salesperson, 'Select owner');
     const status = selectInput(['active', 'dormant', 'lost'], employer.status || 'active', false);
 
     form.appendChild(field('Company name', name, true));

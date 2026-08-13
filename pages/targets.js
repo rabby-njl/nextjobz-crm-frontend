@@ -68,7 +68,7 @@
     t = t || {};
     const form = Utils.el('div', 'form-grid');
 
-    const officer = selectInput(C.salesOfficers, t.officer, 'Select officer');
+    const officer = selectInput(Auth.salesOfficers(), t.officer, 'Select officer');
     const month = monthInput(t.month || currentMonth());
     const targetSales = Components.numberInput(t.targetSales, '0');
     const targetVisits = Components.numberInput(t.targetVisits, '0');

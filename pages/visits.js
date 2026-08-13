@@ -54,7 +54,7 @@
     const type = selectInput(C.visitTypes, visit.type || 'field visit', false);
     const outcome = textInput(visit.outcome, 'meeting held');
     const nextStep = textInput(visit.nextStep, 'send proposal');
-    const officer = selectInput(C.salesOfficers, visit.officer || Auth.userName(), 'Select officer');
+    const officer = selectInput(Auth.salesOfficers(), visit.officer || Auth.userName(), 'Select officer');
 
     form.appendChild(field('Employer', employer.el, true));
     form.appendChild(field('Date', date, true));

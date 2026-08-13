@@ -58,7 +58,7 @@
     const headcount = Components.numberInput(client.headcount, '0');
     const cycleStatus = selectInput(C.payrollCycles, client.cycleStatus || 'data pending', false);
     const monthlyFee = Components.numberInput(client.monthlyFee, '0');
-    const owner = textInput(client.owner, 'Payroll One');
+    const owner = textInput(client.owner, Auth.userName());
 
     form.appendChild(field('Client name', clientName.el, true));
     form.appendChild(field('Contract start', contractStart, false));
