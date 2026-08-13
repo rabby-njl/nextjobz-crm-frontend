@@ -2,6 +2,6 @@
 // Change API_MODE to 'live' and set your Render URL. Nothing else changes.
 
 const CONFIG = {
-  API_MODE: 'mock',
-  API_BASE_URL: 'https://api.nextjobz.com.bd'
+  API_MODE: 'live',
+  API_BASE_URL: 'https://nextjobz-crm-api.vercel.app'
 };
