@@ -66,7 +66,17 @@ const api = (() => {
   }
 
   // ---- live (REST) branch ----
+  function authHeaders(extra) {
+    const h = Object.assign({}, extra || {});
+    let t = null;
+    try { t = (typeof Auth !== 'undefined' && Auth.token) ? Auth.token() : null; } catch (e) { t = null; }
+    if (t) h['Authorization'] = 'Bearer ' + t;
+    return h;
+  }
+
   function live(path, opts) {
+    opts = opts || {};
+    opts.headers = authHeaders(opts.headers);
     return fetch(CONFIG.API_BASE_URL + path, opts).then((r) => {
       if (!r.ok) throw new Error('Request failed ' + r.status);
       return r.json();

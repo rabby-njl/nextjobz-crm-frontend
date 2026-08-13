@@ -480,7 +480,7 @@ const Components = (() => {
     });
     sidebar.appendChild(nav);
 
-    const foot = Utils.el('div', 'sidebar-foot', 'Viewing as ' + Auth.roleLabel(Auth.getRole()));
+    const foot = Utils.el('div', 'sidebar-foot', 'Signed in as ' + Auth.userName());
     sidebar.appendChild(foot);
   }
 
@@ -500,34 +500,28 @@ const Components = (() => {
     search.appendChild(sIco);
     search.appendChild(sInput);
 
-    const roleSwitch = Utils.el('div', 'role-switch');
-    const lbl = Utils.el('label', '', 'Demo: View As');
-    const sel = Utils.el('select');
-    sel.setAttribute('aria-label', 'Demo view as role');
-    Auth.ROLES.forEach((r) => {
-      const o = Utils.el('option', '', r.label);
-      o.value = r.id;
-      sel.appendChild(o);
-    });
-    sel.value = Auth.getRole();
-    sel.addEventListener('change', () => {
-      Auth.setRole(sel.value);
-      renderSidebar();
-      renderTopBar();
-      renderMobileNav();
-      if (window.Router) window.Router.refresh();
-    });
+    const emp = Auth.employee();
+    const name = emp ? emp.name : '';
+    const userInfo = Utils.el('div', 'topbar-user');
+    userInfo.appendChild(Utils.el('div', 'topbar-user-name', name));
+    userInfo.appendChild(Utils.el('div', 'topbar-user-role', Auth.roleLabel(Auth.getRole())));
 
-    roleSwitch.appendChild(lbl);
-    roleSwitch.appendChild(sel);
+    const avatar = Utils.el('div', 'avatar', Auth.initials(name));
+    avatar.title = name;
 
-    const avatar = Utils.el('div', 'avatar', Auth.initials(Auth.getRole()));
-    avatar.title = Auth.roleLabel(Auth.getRole());
+    const logout = Utils.el('button', 'btn btn--ghost btn--sm', 'Logout');
+    logout.type = 'button';
+    logout.addEventListener('click', () => {
+      Auth.logout();
+      window.location.hash = '#/';
+      window.location.reload();
+    });
 
     topbar.appendChild(title);
     topbar.appendChild(search);
-    topbar.appendChild(roleSwitch);
+    topbar.appendChild(userInfo);
     topbar.appendChild(avatar);
+    topbar.appendChild(logout);
   }
 
   function renderMobileNav() {
@@ -580,6 +574,63 @@ const Components = (() => {
     renderMobileNav();
   }
 
+  function renderLogin() {
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+
+    const wrap = Utils.el('div', 'login-wrap');
+    const card = Utils.el('div', 'login-card');
+
+    const brand = Utils.el('div', 'login-brand');
+    brand.innerHTML = '<div class="brand-mark">N</div><div><div class="brand-name">Nextjobz CRM</div><div class="brand-sub">Internal coordination hub</div></div>';
+    card.appendChild(brand);
+
+    card.appendChild(Utils.el('h2', 'login-title', 'Sign in'));
+    card.appendChild(Utils.el('div', 'login-hint', 'Username and password are your Enroll ID.'));
+
+    const u = Utils.el('input');
+    u.type = 'text';
+    u.placeholder = 'Enroll ID (e.g. 569194)';
+    u.autocomplete = 'username';
+    const p = Utils.el('input');
+    p.type = 'password';
+    p.placeholder = 'Password';
+    p.autocomplete = 'current-password';
+
+    const err = Utils.el('div', 'login-error');
+    err.style.display = 'none';
+
+    const btn = Utils.el('button', 'btn btn--primary btn--block', 'Sign in');
+    btn.type = 'button';
+
+    function doLogin() {
+      err.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      Auth.login(u.value, p.value).then(() => {
+        const target = document.getElementById('app');
+        target.innerHTML = '';
+        Components.renderShell();
+        Router.start();
+      }).catch((e) => {
+        err.textContent = e.message || 'Sign in failed.';
+        err.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+      });
+    }
+
+    btn.addEventListener('click', doLogin);
+    p.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+
+    card.appendChild(u);
+    card.appendChild(p);
+    card.appendChild(btn);
+    card.appendChild(err);
+    wrap.appendChild(card);
+    app.appendChild(wrap);
+  }
+
   function setPageTitle(t) {
     const el = document.getElementById('pageTitle');
     if (el) el.textContent = t;
@@ -605,6 +656,7 @@ const Components = (() => {
     modal,
     toast,
     renderShell,
+    renderLogin,
     renderSidebar,
     renderTopBar,
     renderMobileNav,

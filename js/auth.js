@@ -1,7 +1,9 @@
-// auth.js — demo role switching only. No real security (that's Phase 2).
+// auth.js — real authentication. Employees sign in with their Enroll ID
+// (username = Enroll ID, password = Enroll ID). The backend issues a Bearer
+// token; the employee's CRM role drives their personalized dashboard.
 
 const Auth = (() => {
-  const STORAGE_KEY = 'njz_crm_role';
+  const STORAGE_KEY = 'njz_crm_session';
 
   const ROLES = [
     { id: 'super_admin',       label: 'Super Admin (CBO)' },
@@ -18,8 +20,7 @@ const Auth = (() => {
     { id: 'management',        label: 'Management (Read Only)' }
   ];
 
-  // Which roles can open each screen (screen id -> allowed roles).
-  // super_admin and admin are granted everything by canAccess() below.
+  // Which roles can open each screen. super_admin/admin are granted everything.
   const ACCESS = {
     dashboard:         ['sales_head', 'sales_officer', 'crm_lead', 'crm_officer', 'marketing_officer', 'headhunting_mgr', 'recruiter', 'payroll_officer', 'events_officer', 'management'],
     leads:             ['sales_head', 'sales_officer', 'crm_lead', 'crm_officer', 'marketing_officer', 'headhunting_mgr', 'recruiter', 'events_officer', 'management'],
@@ -42,72 +43,104 @@ const Auth = (() => {
     reports:           ['sales_head', 'management']
   };
 
-  function getRole() {
-    try {
-      return localStorage.getItem(STORAGE_KEY) || 'super_admin';
-    } catch (e) {
-      return 'super_admin';
-    }
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { return null; }
+  }
+  function setSession(s) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch (e) { /* ignore */ }
+  }
+  function clearSession() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
 
-  function setRole(id) {
-    try {
-      localStorage.setItem(STORAGE_KEY, id);
-    } catch (e) {
-      /* ignore */
-    }
+  function isLoggedIn() {
+    const s = getSession();
+    return !!(s && s.token);
+  }
+
+  function employee() {
+    const s = getSession();
+    return s ? s.employee : null;
+  }
+
+  function token() {
+    const s = getSession();
+    return s ? s.token : null;
+  }
+
+  function role() {
+    const e = employee();
+    return e ? e.role : null;
+  }
+
+  function getRole() {
+    return role();
+  }
+
+  function userName() {
+    const e = employee();
+    return e ? e.name : null;
   }
 
   function roleLabel(id) {
     const r = ROLES.find((x) => x.id === id);
-    return r ? r.label : id;
+    return r ? r.label : (id || '');
   }
 
   function canAccess(screenId) {
-    const role = getRole();
-    if (role === 'super_admin' || role === 'admin') return true;
+    const r = role();
+    if (!r) return false;
+    if (r === 'super_admin' || r === 'admin') return true;
     const allowed = ACCESS[screenId];
     if (!allowed) return false;
-    return allowed.includes(role);
-  }
-
-  // Demo user mapping: which person the current role "is", used for "My Leads" filtering.
-  const USER_BY_ROLE = {
-    super_admin: null,
-    admin: null,
-    sales_head: null,
-    sales_officer: 'Officer One',
-    crm_lead: null,
-    crm_officer: 'Officer Five',
-    marketing_officer: 'Marketing One',
-    headhunting_mgr: null,
-    recruiter: 'Recruiter One',
-    payroll_officer: 'Payroll One',
-    events_officer: 'Events One',
-    management: null
-  };
-
-  function userName() {
-    return USER_BY_ROLE[getRole()] || null;
+    return allowed.includes(r);
   }
 
   function isManager() {
-    const r = getRole();
-    return r === 'super_admin' || r === 'admin' || r === 'sales_head' || r === 'crm_lead' || r === 'headhunting_mgr';
+    const r = role();
+    return ['super_admin', 'admin', 'sales_head', 'crm_lead', 'headhunting_mgr'].includes(r);
   }
 
-  function initials(id) {
-    return id.split('_').map((p) => p[0]).join('').slice(0, 2).toUpperCase();
+  function initials(name) {
+    name = String(name || '');
+    const parts = name.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+  }
+
+  async function login(username, password) {
+    const res = await fetch(CONFIG.API_BASE_URL + '/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: String(username || '').trim(), password: String(password || '') })
+    });
+    if (!res.ok) {
+      let msg = 'Invalid Enroll ID or password.';
+      try { const j = await res.json(); if (j && j.error) msg = j.error; } catch (e) { /* ignore */ }
+      throw new Error(msg);
+    }
+    const data = await res.json();
+    setSession({ token: data.token, employee: data.employee });
+    return data.employee;
+  }
+
+  function logout() {
+    clearSession();
   }
 
   return {
     ROLES,
     getRole,
-    setRole,
     roleLabel,
     canAccess,
     userName,
     isManager,
-    initials
+    initials,
+    login,
+    logout,
+    isLoggedIn,
+    employee,
+    token,
+    role
   };
 })();

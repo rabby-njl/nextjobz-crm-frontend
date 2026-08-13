@@ -48,6 +48,14 @@
     const view = document.getElementById('view');
     view.innerHTML = '';
 
+    const emp = Auth.employee();
+    if (emp) {
+      const banner = Utils.el('div', 'welcome-banner');
+      banner.appendChild(Utils.el('div', 'welcome-title', 'Welcome, ' + emp.name));
+      banner.appendChild(Utils.el('div', 'welcome-sub', emp.designation + ' · ' + emp.department + ' · ' + Auth.roleLabel(emp.role)));
+      view.appendChild(banner);
+    }
+
     const activeLeads = data.leads.filter(function (l) { return l.status !== 'lost'; });
     const unrouted = data.leads.filter(function (l) {
       return !l.routedTo && Utils.daysSince(l.createdAt) > 0;

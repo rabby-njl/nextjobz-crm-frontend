@@ -927,6 +927,85 @@ table.data-table {
   }
 }
 
+/* ---------- Login ---------- */
+
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.login-title {
+  font-size: 20px;
+}
+
+.login-hint {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: -6px;
+}
+
+.login-card input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: var(--primary);
+}
+
+.login-error {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.welcome-banner {
+  background: var(--primary);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.welcome-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.welcome-sub {
+  font-size: 13.5px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
 /* ---------- KPI grid responsiveness ---------- */
 
 @media (max-width: 1100px) {

@@ -42,8 +42,12 @@
   <script src="pages/reports.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      Components.renderShell();
-      Router.start();
+      if (Auth.isLoggedIn()) {
+        Components.renderShell();
+        Router.start();
+      } else {
+        Components.renderLogin();
+      }
     });
   </script>
 </body>
